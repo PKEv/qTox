@@ -35,7 +35,8 @@ LoginScreen::LoginScreen(QWidget *parent) :
     quitShortcut{QKeySequence(Qt::CTRL + Qt::Key_Q), this}
 {
     ui->setupUi(this);
-
+    core = Nexus::getCore();
+    connect(core, &Core::selfAvatarChanged, this, &LoginScreen::onSelfAvatarLoaded);
     connect(&quitShortcut, &QShortcut::activated, this, &LoginScreen::close);
     connect(ui->newProfilePgbtn, &QPushButton::clicked, this, &LoginScreen::onNewProfilePageClicked);
     connect(ui->loginPgbtn, &QPushButton::clicked, this, &LoginScreen::onLoginPageClicked);
@@ -94,6 +95,12 @@ void LoginScreen::reset()
     ui->autoLoginCB->setChecked(Settings::getInstance().getAutoLogin());
 }
 
+void LoginScreen::onSelfAvatarLoaded(QPixmap pixmap)
+{
+    pixmap = pixmap.scaledToHeight(60);
+    ui->avatar->setPixmap(pixmap);
+}
+
 void LoginScreen::onNewProfilePageClicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
@@ -105,7 +112,7 @@ void LoginScreen::onLoginPageClicked()
 }
 
 void LoginScreen::onCreateNewProfile()
-{   
+{
     QString name = ui->newUsername->text();
     QString pass = ui->newPass->text();
 

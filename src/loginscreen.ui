@@ -144,7 +144,7 @@
    <string>qTox</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../res.qrc">
+   <iconset resource="../res.qrc">
     <normaloff>:/img/icons/qtox.svg</normaloff>:/img/icons/qtox.svg</iconset>
   </property>
   <property name="autoFillBackground">
@@ -722,6 +722,16 @@ margin-bottom:5px;</string>
           </spacer>
          </item>
          <item>
+          <widget class="QLabel" name="avatar">
+           <property name="text">
+            <string>AVATAR</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
             <string>Username:</string>
@@ -1113,7 +1123,7 @@ color:white;</string>
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="../../res.qrc">:/img/login_logo.svg</pixmap>
+    <pixmap resource="../res.qrc">:/img/login_logo.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1121,7 +1131,7 @@ color:white;</string>
   </widget>
  </widget>
  <resources>
-  <include location="../../res.qrc"/>
+  <include location="../res.qrc"/>
  </resources>
  <connections/>
 </ui>

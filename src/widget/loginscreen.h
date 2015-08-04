@@ -24,6 +24,8 @@
 #include <QWidget>
 #include <QShortcut>
 
+#include "src/core/core.h"
+
 namespace Ui {
 class LoginScreen;
 }
@@ -47,9 +49,11 @@ private slots:
     // Buttons to submit form
     void onCreateNewProfile();
     void onLogin();
+    void onSelfAvatarLoaded(QPixmap pixmap);
 
 private:
     void retranslateUi();
+    Core *core;
 
 private:
     Ui::LoginScreen *ui;
