@@ -46,6 +46,8 @@ public:
     /// Hides the login screen and shows the GUI for the given profile.
     /// Will delete the current GUI, if it exists.
     void showMainGUI();
+    // Drop current profile, without any GUI elements
+    void resetProfile();
 
     static Nexus& getInstance();
     static void destroyInstance();

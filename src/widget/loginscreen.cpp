@@ -98,7 +98,10 @@ void LoginScreen::reset()
 void LoginScreen::onSelfAvatarLoaded(QPixmap pixmap)
 {
     pixmap = pixmap.scaledToHeight(60);
-    ui->avatar->setPixmap(pixmap);
+    if (pixmap.data_ptr() != NULL)
+        ui->avatar->setPixmap(pixmap);
+    else
+        ui->avatar->setPixmap(QPixmap(":/img/contact_dark.svg"));
 }
 
 void LoginScreen::onNewProfilePageClicked()
@@ -164,11 +167,33 @@ void LoginScreen::onLoginUsernameSelected(const QString &name)
     {
         ui->loginPasswordLabel->show();
         ui->loginPassword->show();
+        ui->avatar->setPixmap(QPixmap(":/img/contact_dark.svg"));
     }
     else
     {
         ui->loginPasswordLabel->hide();
         ui->loginPassword->hide();
+        if (!ProfileLocker::isLockable(name))
+        {
+            ui->avatar->setPixmap(QPixmap(":/img/contact_dark.svg"));
+            return;
+        }
+        Profile* profile = Profile::loadProfile(name);
+        if (!profile)
+        {
+            ui->avatar->setPixmap(QPixmap(":/img/contact_dark.svg"));
+            return;
+        }
+
+        Nexus& nexus = Nexus::getInstance();
+
+        nexus.setProfile(profile);
+        Core *core = nexus.getCore();
+        QByteArray savedata = profile->loadToxSave();
+        QString id = core->getId(savedata);
+        nexus.resetProfile();
+
+        onSelfAvatarLoaded(Settings::getInstance().getSavedAvatar(id));
     }
 }
 

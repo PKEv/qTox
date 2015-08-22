@@ -142,6 +142,15 @@ Core* Core::getInstance()
     return Nexus::getCore();
 }
 
+QString Core::getId(QByteArray savedata)
+{
+    makeTox(savedata);
+    QString id = getSelfId().toString();
+    deadifyTox();
+    return id;
+
+}
+
 void Core::makeTox(QByteArray savedata)
 {
     // IPv6 needed for LAN discovery, but can crash some weird routers. On by default, can be disabled in options.

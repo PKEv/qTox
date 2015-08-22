@@ -93,6 +93,7 @@ public:
     bool isReady(); ///< Most of the API shouldn't be used until Core is ready, call start() first
 
     void resetCallSources(); ///< Forces to regenerate each call's audio sources
+    QString getId(QByteArray savedata); // only get id from tox file
 
 public slots:
     void start(); ///< Initializes the core, must be called before anything else

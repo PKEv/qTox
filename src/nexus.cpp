@@ -115,6 +115,11 @@ void Nexus::start()
     else
         showLogin();
 }
+void Nexus::resetProfile()
+{
+    delete profile;
+    profile = nullptr;
+}
 
 void Nexus::showLogin()
 {
