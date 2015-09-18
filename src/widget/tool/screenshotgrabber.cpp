@@ -75,7 +75,13 @@ void ScreenshotGrabber::showGrabber()
     this->window->show();
     this->window->setFocus();
     this->window->grabKeyboard();
-    adjustWindowSize();
+    QRect systemScreenRect = getSystemScreenRect();
+    QRect fullGrabbedRect = screenGrab.rect();
+
+    this->window->setGeometry(systemScreenRect);
+    this->window->scene()->setSceneRect(fullGrabbedRect);
+    this->overlay->setRect(fullGrabbedRect);
+
     adjustTooltipPosition();
 }
 
@@ -202,6 +208,8 @@ void ScreenshotGrabber::adjustWindowSize()
     qDebug() << "adjusting grabber size to" << systemScreenRect;
 
     this->window->setGeometry(systemScreenRect);
+    systemScreenRect.setX(0);
+    systemScreenRect.setY(0);
     this->window->scene()->setSceneRect(systemScreenRect);
     this->overlay->setRect(systemScreenRect);
 }
@@ -209,9 +217,11 @@ void ScreenshotGrabber::adjustWindowSize()
 QPixmap ScreenshotGrabber::grabScreen()
 {
     QRect systemScreenRect = getSystemScreenRect();
-    return QApplication::primaryScreen()->grabWindow(QApplication::desktop()->winId(),0,0,
-                                                       systemScreenRect.width(),
-                                                       systemScreenRect.height());
+    return QPixmap::grabWindow(QApplication::desktop()->winId(),
+                               systemScreenRect.x(),
+                               systemScreenRect.y(),
+                               systemScreenRect.width(),
+                               systemScreenRect.height());
 }
 
 void ScreenshotGrabber::beginRectChooser(QGraphicsSceneMouseEvent* event)
